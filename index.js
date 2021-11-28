@@ -13,19 +13,21 @@ exports.handler = async (event) => {
     let response;
     switch(true) {
         case event.httpMethod === 'GET' && event.path === healthPath:
-            response = buildResponse(200, 'Test');
+            response = util.buildResponse(200, 'Test');
             break;
         case event.httpMethod === 'POST' && event.path === registerPath:
             response = await registerService.register(registerBody);
             break;
         case event.httpMethod === 'POST' && event.path === loginPath:
-            response = buildResponse(200);
+            response = await loginService.login(loginBody);
             break;
         case event.httpMethod === 'POST' && event.path === verifyPath:
-            response = buildResponse(200);
+            const verifyBody = JSON.parse(event.body);
+        
+            response = verifyService.verify(verifyBody);
             break;
         default:
-            response = buildResponse(404, '404 Notcx Found');
+            response = util.buildResponse(404, '404 Not Found');
         
     }
     return response;
