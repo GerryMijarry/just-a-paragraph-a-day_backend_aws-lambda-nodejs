@@ -7,6 +7,7 @@ const healthPath = "/health";
 const registerPath = "/register";
 const loginPath = "/login";
 const verifyPath = "/verify";
+const profilePath = "/profile";
 
 exports.handler = async (event) => {
   console.log("Request Event: ", event);
@@ -27,6 +28,12 @@ exports.handler = async (event) => {
       const verifyBody = JSON.parse(event.body);
       response = await verifyService.verify(verifyBody);
       break;
+    case event.httpMethod === "POST" && event.path === profilePath:
+      const profileBody = JSON.parse(event.body);
+      response = await profileService.updateProfile(profileBody);
+
+      break;
+
     default:
       response = util.buildResponse(404, "404 Not Found");
   }
