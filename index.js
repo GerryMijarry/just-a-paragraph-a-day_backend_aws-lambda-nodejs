@@ -1,6 +1,8 @@
 const registerService = require("./service/register");
 const loginService = require("./service/login");
 const verifyService = require("./service/verify");
+const profileService = require("./service/profile");
+const bookService = require("./service/book");
 const util = require("./utils/util");
 
 const healthPath = "/health";
@@ -8,6 +10,7 @@ const registerPath = "/register";
 const loginPath = "/login";
 const verifyPath = "/verify";
 const profilePath = "/profile";
+const bookPath = "/book";
 
 exports.handler = async (event) => {
   console.log("Request Event: ", event);
@@ -31,6 +34,9 @@ exports.handler = async (event) => {
     case event.httpMethod === "POST" && event.path === profilePath:
       const profileBody = JSON.parse(event.body);
       response = await profileService.updateProfile(profileBody);
+    case event.httpMethod === "POST" && event.path === bookPath:
+      const bookBody = JSON.parse(event.body);
+      response = await bookService.addBook(bookBody);
 
       break;
 
